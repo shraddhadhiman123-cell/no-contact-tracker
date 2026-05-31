@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>No Contact Tracker & Move On</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom Style Sheet -->
+    <link rel="stylesheet" href="style.css?v=3.0">
+</head>
+<body>
+    <!-- Floating Psychological Color Blobs for Premium Aesthetics -->
+    <div class="bg-blobs-wrapper">
+        <div class="bg-blob blob-teal"></div>
+        <div class="bg-blob blob-rose"></div>
+        <div class="bg-blob blob-indigo"></div>
+        <div class="bg-blob blob-amber"></div>
+    </div>
+
+    <div id="app-container" class="app-container">
+        
+        <!-- ================= ONBOARDING VIEW ================= -->
+        <div id="onboarding-view" class="view active-view">
+            <div class="onboarding-card glass-panel animate-fade-in">
+                <div class="onboarding-header">
+                    <img src="assets/logo.png" alt="No Contact Tracker Logo" class="app-icon-img animate-pulse-slow">
+                    <h1>Enter Your Glow-Up Era ✨</h1>
+                    <p class="subtitle">Going No Contact is the ultimate power move. Block the noise, protect your peace, and level up your main character energy.</p>
+                </div>
+                
+                <form id="onboarding-form" class="onboarding-form">
+                    <!-- Step 1: Basic Info -->
+                    <div class="form-section">
+                        <label for="ex-name"><i class="fa-solid fa-user-slash icon-margin"></i> Ex's Name (To alert you if you try to fold 🤡)</label>
+                        <input type="text" id="ex-name" placeholder="e.g., The Clown" autocomplete="off">
+                        <small class="helper-text">This will be used to customize your alerts and temptation guards.</small>
+                    </div>
+
+                    <!-- Step 2: Time of Breakup / No Contact Start -->
+                    <div class="form-section">
+                        <label for="no-contact-date"><i class="fa-solid fa-calendar-day icon-margin"></i> When did you establish boundaries?</label>
+                        <input type="datetime-local" id="no-contact-date" required>
+                        <small class="helper-text">Set this to when you last had any form of contact with them.</small>
+                    </div>
+
+                    <!-- Step 3: Motivation Reasons -->
+                    <div class="form-section">
+                        <label><i class="fa-solid fa-heart-pulse icon-margin"></i> Why are you entering your No Contact Era? (Select all that apply)</label>
+                        <div class="chip-group" id="reasons-chip-group">
+                            <div class="chip" data-value="Self-Respect"><i class="fa-solid fa-shield-heart"></i> Self-Respect 👑</div>
+                            <div class="chip" data-value="Emotional Healing"><i class="fa-solid fa-wand-magic-sparkles"></i> Glow Up Era 📈</div>
+                            <div class="chip" data-value="Move On"><i class="fa-solid fa-arrow-right-to-bracket"></i> Rent-Free No More 💅</div>
+                            <div class="chip" data-value="Toxic Relationship"><i class="fa-solid fa-skull-crossbones"></i> Blocking Toxicity 🚫</div>
+                            <div class="chip" data-value="Regain Control"><i class="fa-solid fa-crown"></i> Reclaiming My Energy ⚡</div>
+                            <div class="chip" data-value="Stop Obsessing"><i class="fa-solid fa-brain"></i> Unclowning Myself 🤡</div>
+                        </div>
+                    </div>
+
+                    <!-- Step 4: Plan Choice -->
+                    <div class="form-section">
+                        <label><i class="fa-solid fa-route icon-margin"></i> Choose Your Healing Track</label>
+                        <div class="plan-cards">
+                            <div class="plan-card active" data-plan="30">
+                                <h3>30-Day Reset: The Detox Era 💀</h3>
+                                <p>Perfect for breaking the immediate addiction and clearing your head. You've got this.</p>
+                                <span class="badge">Recommended</span>
+                            </div>
+                            <div class="plan-card" data-plan="60">
+                                <h3>60-Day Rebuild: Glow Up Era ✨</h3>
+                                <p>Deep healing, resetting routines, and rediscovering your absolute best self.</p>
+                            </div>
+                            <div class="plan-card" data-plan="90">
+                                <h3>90-Day Transformation: Savage Era 💅</h3>
+                                <p>Full emotional release, complete closure, and full attachment style re-wiring.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" id="start-button" class="btn btn-primary btn-block">
+                        Activate Glow-Up <i class="fa-solid fa-arrow-right icon-margin-left"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- ================= MAIN APP VIEW ================= -->
+        <div id="main-app-view" class="view hidden-view">
+            <!-- Sidebar for Desktop Navigation -->
+            <aside class="sidebar glass-panel">
+                <div class="sidebar-brand">
+                    <img src="assets/logo.png" alt="App Logo" class="brand-logo">
+                    <span class="brand-title">Move On</span>
+                </div>
+                
+                <nav class="sidebar-nav">
+                    <ul>
+                        <li class="nav-item active" data-tab="dashboard">
+                            <a href="#dashboard"><i class="fa-solid fa-chart-line"></i> <span>Dashboard</span></a>
+                        </li>
+                        <li class="nav-item" data-tab="therapist">
+                            <a href="#therapist"><i class="fa-solid fa-comment-medical"></i> <span>AI Therapist</span></a>
+                        </li>
+                        <li class="nav-item" data-tab="journal">
+                            <a href="#journal"><i class="fa-solid fa-book-open"></i> <span>Journal</span></a>
+                        </li>
+                        <li class="nav-item" data-tab="community">
+                            <a href="#community"><i class="fa-solid fa-users"></i> <span>Community</span></a>
+                        </li>
+                        <li class="nav-item" data-tab="plan">
+                            <a href="#plan"><i class="fa-solid fa-calendar-check"></i> <span>Healing Plan</span></a>
+                        </li>
+                        <li class="nav-item" data-tab="blogs">
+                            <a href="#blogs"><i class="fa-solid fa-newspaper"></i> <span>Trends & Blogs</span></a>
+                        </li>
+                        <li class="nav-item" data-tab="meditation">
+                            <a href="#meditation"><i class="fa-solid fa-spa"></i> <span>Meditation</span></a>
+                        </li>
+                        <li class="nav-item" data-tab="settings">
+                            <a href="#settings"><i class="fa-solid fa-gear"></i> <span>Settings</span></a>
+                        </li>
+                    </ul>
+                </nav>
+                
+                <div class="sidebar-footer">
+                    <div id="pro-badge-container" class="pro-badge-sidebar free-tier">
+                        <span class="tier-label">Free Account</span>
+                        <button id="btn-upgrade-pro-sidebar" class="btn btn-primary btn-sm btn-block btn-upgrade-pro"><i class="fa-solid fa-crown"></i> Get Pro</button>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Main Layout Content Area -->
+            <div class="main-layout-container">
+                <header class="app-header glass-panel">
+                    <div class="header-info">
+                        <span class="greeting" id="header-greeting">Stay strong, Healer</span>
+                        <div class="page-title-row">
+                            <h2 class="header-page-title" id="page-title">Dashboard</h2>
+                            <span id="header-pro-badge" class="badge-pro hidden-badge"><i class="fa-solid fa-crown"></i> PRO</span>
+                        </div>
+                    </div>
+                    <div class="header-actions">
+                        <button id="btn-daily-checkin-trigger" class="btn btn-secondary mr-2">
+                            <i class="fa-solid fa-clipboard-question"></i> Daily Check-in
+                        </button>
+                        <button id="btn-temptation-trigger" class="btn btn-danger pulse-red">
+                            <i class="fa-solid fa-triangle-exclamation"></i> I'm Tempted!
+                        </button>
+                    </div>
+                </header>
+
+                <main class="content-scroll-area">
+                    
+                    <!-- 1. DASHBOARD VIEW -->
+                    <div id="tab-dashboard" class="tab-content active-tab animate-fade-in">
+                        <div class="dashboard-grid">
+                            
+                            <!-- Streak Counter Panel -->
+                            <div class="streak-panel glass-panel card-glow-indigo">
+                                <div class="streak-header">
+                                    <h3>Unclowned Progress 🤡</h3>
+                                    <span class="stage-tag" id="streak-stage-tag">Withdrawal Era</span>
+                                </div>
+                                
+                                <div class="circular-progress-container">
+                                    <div class="progress-ring-wrapper">
+                                        <svg class="progress-ring" width="220" height="220">
+                                            <circle class="progress-ring-bg" stroke="rgba(255,255,255,0.05)" stroke-width="12" fill="transparent" r="95" cx="110" cy="110" />
+                                            <circle id="progress-ring-bar" class="progress-ring-bar" stroke="url(#indigo-grad)" stroke-width="12" stroke-linecap="round" fill="transparent" r="95" cx="110" cy="110" stroke-dasharray="596.9" stroke-dashoffset="596.9" />
+                                            <defs>
+                                                <linearGradient id="indigo-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                    <stop offset="0%" stop-color="#a78bfa" />
+                                                    <stop offset="100%" stop-color="#7c3aed" />
+                                                </linearGradient>
+                                            </defs>
+                                        </svg>
+                                        <div class="streak-counter">
+                                            <span class="streak-number" id="streak-days">0</span>
+                                            <span class="streak-label" id="streak-days-label">Days</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="precise-timer" id="precise-timer-display">
+                                    <div class="timer-chunk"><span id="timer-hours">00</span><label>Hours</label></div>
+                                    <div class="timer-chunk"><span id="timer-minutes">00</span><label>Mins</label></div>
+                                    <div class="timer-chunk"><span id="timer-seconds">00</span><label>Secs</label></div>
+                                </div>
+
+                                <p class="streak-footer-text" id="streak-since-text">Boundaries active since: --/--/----</p>
+                            </div>
+
+                            <!-- Stage & Advice Panel -->
+                            <div class="advice-panel glass-panel">
+                                <div class="panel-header">
+                                    <i class="fa-solid fa-wand-magic-sparkles advice-icon"></i>
+                                    <h3>Current Healing Era ✨</h3>
+                                </div>
+                                <div class="stage-info-box">
+                                    <h4 id="stage-title">The Dopamine Drought (No Contact Day 1-5) 💀</h4>
+                                    <p id="stage-desc">Your brain is craving the dopamine hit of contact. It feels physically painful right now, but this is a detox phase. Every second you hold on, your brain recalibrates. You are stronger than a chemical urge.</p>
+                                </div>
+                                <div class="stage-progress">
+                                    <div class="progress-track">
+                                        <div class="progress-fill" id="stage-progress-fill" style="width: 20%;"></div>
+                                    </div>
+                                    <span class="progress-ratio" id="stage-progress-ratio">Day 1 of 5</span>
+                                </div>
+                            </div>
+
+                            <!-- Daily Affirmation Deck Quick Card -->
+                            <div class="affirmation-card glass-panel card-glow-purple">
+                                <h3>Daily Affirmation Deck ✨</h3>
+                                <div class="affirmation-text-box">
+                                    <p id="dashboard-affirmation">"I am releasing what no longer serves my growth. My peace is worth more than any temporary validation."</p>
+                                </div>
+                                <div class="affirmation-actions">
+                                    <button id="btn-next-affirmation" class="btn btn-text"><i class="fa-solid fa-arrows-rotate"></i> Next Card</button>
+                                    <button id="btn-share-affirmation" class="btn btn-text"><i class="fa-solid fa-arrow-up-from-bracket"></i> Share</button>
+                                </div>
+                            </div>
+
+                            <!-- Quick Logs & Stats -->
+                            <div class="quick-logs-panel glass-panel">
+                                <h3>Main Character Energy 📈</h3>
+                                <div class="healing-score-container">
+                                    <div class="score-circle">
+                                        <span id="healing-score-number">85%</span>
+                                        <label>Energy Level</label>
+                                    </div>
+                                    <div class="score-stats">
+                                        <div class="stat-row">
+                                            <span class="stat-label">Fold Alerts Muted 🛡️</span>
+                                            <span class="stat-value" id="stats-temptations">0</span>
+                                        </div>
+                                        <div class="stat-row">
+                                            <span class="stat-label">Rants Logged ✍️</span>
+                                            <span class="stat-value" id="stats-journals">0</span>
+                                        </div>
+                                        <div class="stat-row">
+                                            <span class="stat-label">Milestones Unlocked 👑</span>
+                                            <span class="stat-value" id="stats-achievements">1/8</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="quick-actions">
+                                    <button class="btn btn-secondary btn-sm nav-trigger" data-target="journal"><i class="fa-solid fa-pen"></i> Log Mood</button>
+                                    <button class="btn btn-secondary btn-sm nav-trigger" data-target="therapist"><i class="fa-solid fa-robot"></i> Spill the Tea</button>
+                                </div>
+                            </div>
+
+                            <!-- Mood Analytics Chart Card -->
+                            <div class="mood-analytics-card glass-panel card-glow-indigo">
+                                <div class="chart-header-row">
+                                    <h3>Mood & Healing Analytics</h3>
+                                    <div class="chart-toggles">
+                                        <button id="btn-chart-7d" class="chart-toggle-btn active">7d</button>
+                                        <button id="btn-chart-30d" class="chart-toggle-btn">30d</button>
+                                    </div>
+                                </div>
+                                <div class="chart-wrapper">
+                                    <canvas id="moodChart" height="150"></canvas>
+                                    <div id="chart-paywall-overlay" class="chart-paywall-overlay">
+                                        <i class="fa-solid fa-lock chart-lock-icon"></i>
+                                        <h4>Unlock Mood & Healing Trends</h4>
+                                        <p>Track your recovery and see how staying no-contact improves your mood.</p>
+                                        <button class="btn btn-primary btn-sm btn-upgrade-pro"><i class="fa-solid fa-crown"></i> Go Pro</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- 2. AI THERAPIST VIEW -->
+                    <div id="tab-therapist" class="tab-content hidden-tab animate-fade-in">
+                        <div class="therapist-chat-container glass-panel">
+                            <div class="chat-header">
+                                <div class="chat-header-main">
+                                    <div class="therapist-avatar">
+                                        <i class="fa-solid fa-brain"></i>
+                                        <span class="online-indicator"></span>
+                                    </div>
+                                    <div class="therapist-info">
+                                        <h3 id="therapist-name-display">Scientific Tea Therapist AI 🧠</h3>
+                                        <p id="therapist-desc-display">Compassionate, round-the-clock clinical breakup coach</p>
+                                    </div>
+                                </div>
+                                <div class="coach-vibe-selector">
+                                    <button type="button" class="vibe-btn active" data-vibe="scientific" title="Scientific Tea Coach">🧠 Sci-Tea</button>
+                                    <button type="button" class="vibe-btn" data-vibe="baddie" title="Baddie Bestie Coach">💅 Bestie</button>
+                                    <button type="button" class="vibe-btn" data-vibe="savage" title="Savage Reality Roast Coach">💀 Savage</button>
+                                </div>
+                            </div>
+                            
+                            <div class="chat-messages-area" id="chat-messages">
+                                <!-- Chat bubbles inserted by JS -->
+                                <div class="chat-bubble therapist-bubble">
+                                    <p>Hey bestie. I'm here to spill the actual scientific tea on why you're feeling this way. Maintaining No Contact takes major main character strength. How are we doing today?</p>
+                                    <span class="chat-time">Just now</span>
+                                </div>
+                            </div>
+
+                            <div class="chat-suggestions" id="chat-suggestion-container">
+                                <span class="suggestion-pill">🚨 Clown Alert: I want to text them</span>
+                                <span class="suggestion-pill">Why does my brain feel like withdrawal? 💀</span>
+                                <span class="suggestion-pill">Help me stop romanticizing the past ✨</span>
+                                <span class="suggestion-pill">I need to absolute rant right now 😡</span>
+                            </div>
+
+                            <form id="chat-input-form" class="chat-input-form">
+                                <input type="text" id="chat-user-message" placeholder="Type your feelings, fears, or absolute rants..." autocomplete="off">
+                                <button type="submit" class="btn btn-primary btn-round">
+                                    <i class="fa-solid fa-paper-plane"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- 3. JOURNAL VIEW -->
+                    <div id="tab-journal" class="tab-content hidden-tab animate-fade-in">
+                        <div class="journal-layout">
+                            
+                            <!-- Write Journal Entry -->
+                            <div class="journal-composer glass-panel">
+                                <h3>Log Your Era 📝</h3>
+                                <form id="journal-form">
+                                    <div class="mood-selector-wrapper">
+                                        <label>Where is your energy level right now?</label>
+                                        <div class="mood-icons">
+                                            <div class="mood-btn" data-mood="sad">
+                                                <span class="emoji">😭</span>
+                                                <label>Screaming Crying</label>
+                                            </div>
+                                            <div class="mood-btn" data-mood="anxious">
+                                                <span class="emoji">😰</span>
+                                                <label>Delusional but Thriving</label>
+                                            </div>
+                                            <div class="mood-btn" data-mood="angry">
+                                                <span class="emoji">😡</span>
+                                                <label>Absolute Rant</label>
+                                            </div>
+                                            <div class="mood-btn" data-mood="peaceful">
+                                                <span class="emoji">🧘</span>
+                                                <label>Locked In</label>
+                                            </div>
+                                            <div class="mood-btn" data-mood="hopeful">
+                                                <span class="emoji">✨</span>
+                                                <label>Main Character</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-section">
+                                        <label for="journal-note">Pour the emotional tea</label>
+                                        <textarea id="journal-note" rows="6" placeholder="What's on your mind? Spill the tea, write the rants, document the growth. Getting it down strips away the urge to check up on them..." required></textarea>
+                                    </div>
+                                    
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fa-solid fa-bookmark icon-margin"></i> Log to My History
+                                    </button>
+                                </form>
+                            </div>
+
+                            <!-- Past Journal Logs -->
+                            <div class="journal-history glass-panel">
+                                <div class="history-header">
+                                    <h3>Healing Journal History</h3>
+                                    <div class="search-box">
+                                        <i class="fa-solid fa-magnifying-glass"></i>
+                                        <input type="text" id="journal-search" placeholder="Search entries...">
+                                    </div>
+                                </div>
+                                <div class="journal-list" id="journal-entries-container">
+                                    <!-- Log items inserted by JS -->
+                                    <div class="empty-state">
+                                        <i class="fa-solid fa-pen-nib"></i>
+                                        <p>You haven't written any journal logs yet. Expressing your feelings is a verified way to release pain. Write your first log today!</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 4. COMMUNITY VIEW -->
+                    <div id="tab-community" class="tab-content hidden-tab animate-fade-in">
+                        <div class="community-layout">
+                            <!-- Left: Community Feed -->
+                            <div class="community-feed-section">
+                                <div class="feed-header glass-panel">
+                                    <div class="feed-filter-bar">
+                                        <span class="filter-tag active" data-filter="all">All posts</span>
+                                        <span class="filter-tag" data-filter="Vent">Venting</span>
+                                        <span class="filter-tag" data-filter="Advice">Advice</span>
+                                        <span class="filter-tag" data-filter="Milestone">Milestones</span>
+                                        <span class="filter-tag" data-filter="Support">Support Needed</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="community-posts-list" id="community-posts-container">
+                                    <!-- Posts populated by JS -->
+                                </div>
+                            </div>
+
+                            <!-- Right: Create Post & Guidelines -->
+                            <div class="community-side-panel">
+                                <div class="create-post-card glass-panel">
+                                    <h3>Post to Community</h3>
+                                    <p class="panel-subtitle">Share your struggles, milestone victories, or words of encouragement anonymously.</p>
+                                    <form id="community-post-form">
+                                        <div class="form-section">
+                                            <label for="post-tag">Category</label>
+                                            <select id="post-tag" required>
+                                                <option value="Vent">Venting</option>
+                                                <option value="Advice">Advice & Wisdom</option>
+                                                <option value="Milestone">Milestone Celebration</option>
+                                                <option value="Support">Support Needed</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-section">
+                                            <label for="post-content">Write message (Anonymously)</label>
+                                            <textarea id="post-content" rows="4" placeholder="Write from the heart. Be kind. We are all here to heal..." required></textarea>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary btn-block">
+                                            <i class="fa-solid fa-paper-plane icon-margin"></i> Share Anonymously
+                                        </button>
+                                    </form>
+                                </div>
+
+                                <div class="community-guidelines glass-panel">
+                                    <h4>Community Compass</h4>
+                                    <ul>
+                                        <li><i class="fa-solid fa-shield-halved"></i> <strong>Safe Space:</strong> Every healer here is fighting a quiet battle. Respect, empathy, and kindness are required.</li>
+                                        <li><i class="fa-solid fa-eye-slash"></i> <strong>Complete Anonymity:</strong> Avoid sharing phone numbers, real names, or social handles. Protect yourself.</li>
+                                        <li><i class="fa-solid fa-ban"></i> <strong>Zero Ex-Bashing:</strong> While venting anger is healthy, avoid extreme hate speech. Focus on *your* growth, not their blame.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 5. HEALING PLAN & ACHIEVEMENTS VIEW -->
+                    <div id="tab-plan" class="tab-content hidden-tab animate-fade-in">
+                        <div class="plan-tab-layout">
+                            
+                            <!-- Left Column: The 30 Day Plan Checklist -->
+                            <div class="plan-checklist-section glass-panel">
+                                <div class="plan-section-header">
+                                    <h3>30-Day Recovery Roadmap</h3>
+                                    <p class="subtitle">Complete your daily healing task to strengthen your emotional core.</p>
+                                </div>
+                                <div class="plan-calendar-grid" id="plan-days-container">
+                                    <!-- Days will be generated by JS -->
+                                </div>
+                                <div class="selected-day-details glass-panel" id="day-task-details">
+                                    <h4 id="day-details-title">Day 1: Physical Cleanse</h4>
+                                    <p id="day-details-desc">Delete or archive their phone number. Hide physical photos, gifts, or items that trigger sudden waves of grief. Clear your space, clear your focus.</p>
+                                    <button class="btn btn-primary" id="btn-complete-day-task"><i class="fa-solid fa-check icon-margin"></i> Mark Task Completed</button>
+                                </div>
+                            </div>
+
+                            <!-- Right Column: Achievements & Badges -->
+                            <div class="achievements-section glass-panel">
+                                <h3>Milestones of Strength</h3>
+                                <p class="subtitle">Unlock rewards of commitment as you maintain contact boundaries.</p>
+                                <div class="achievements-grid" id="achievements-container">
+                                    <!-- Badges populated by JS -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 6. TRENDS & SCIENTIFIC BLOGS VIEW -->
+                    <div id="tab-blogs" class="tab-content hidden-tab animate-fade-in">
+                        <!-- Daily Market Trend Banner -->
+                        <div class="trend-dashboard-banner glass-panel card-glow-indigo">
+                            <div class="trend-stats-column">
+                                <span class="trend-eyebrow"><i class="fa-solid fa-chart-line"></i> DAILY BREAKUP SCIENCE MONITOR</span>
+                                <h3 id="trend-topic-name">Dopamine Withdrawal Syndrome</h3>
+                                <div class="trend-data-badges">
+                                    <span class="trend-badge-pill green"><i class="fa-solid fa-arrow-trend-up"></i> Search Volume: +182% Spike</span>
+                                    <span class="trend-badge-pill purple"><i class="fa-solid fa-brain"></i> Interest: High</span>
+                                    <span class="trend-badge-pill amber"><i class="fa-solid fa-flask"></i> Clinical Evidence: Strong</span>
+                                </div>
+                            </div>
+                            <div class="trend-study-details">
+                                <strong>Primary Reference Study:</strong>
+                                <p id="trend-study-citation">"Fisher et al. (Journal of Neurophysiology): Reward & Addiction circuits in relationship rejection."</p>
+                                <button id="btn-read-featured-trend" class="btn btn-primary btn-sm mt-2"><i class="fa-solid fa-book-open"></i> Read Scientific Report</button>
+                            </div>
+                        </div>
+
+                        <!-- Search and Category Filters -->
+                        <div class="blogs-filter-row">
+                            <div class="search-box">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                                <input type="text" id="blog-search" placeholder="Search scientific articles...">
+                            </div>
+                            <div class="blog-categories" id="blog-category-container">
+                                <span class="category-chip active" data-category="all">All Articles</span>
+                                <span class="category-chip" data-category="Neuroscience">Neuroscience</span>
+                                <span class="category-chip" data-category="Psychology">Psychology</span>
+                                <span class="category-chip" data-category="Boundaries">Boundaries</span>
+                                <span class="category-chip" data-category="Self-Care">Self-Care</span>
+                                <span class="category-chip" data-category="Attachment Theory">Attachment</span>
+                                <span class="category-chip" data-category="Growth">Growth</span>
+                            </div>
+                        </div>
+
+                        <div class="blogs-list-layout">
+                            <div id="blog-free-counter-card" class="blog-free-counter glass-panel">
+                                <span>Free Articles Read: <strong id="blog-read-count">0/3</strong></span>
+                                <span class="upgrade-link btn-upgrade-pro">Unlock Unlimited access with Pro <i class="fa-solid fa-crown"></i></span>
+                            </div>
+                            <div class="blogs-grid" id="blogs-grid-container">
+                                <!-- Dynamically populated by JS -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 7. GUIDED MEDITATION TAB -->
+                    <div id="tab-meditation" class="tab-content hidden-tab animate-fade-in">
+                        <div class="meditation-layout">
+                            <div class="meditation-selector glass-panel">
+                                <h3>Guided Breakup Zen</h3>
+                                <p class="subtitle">Select a session to calm your nervous system and release contact anxiety.</p>
+                                <div class="meditation-tracks-list">
+                                    <div class="meditation-track-card active" data-track="letting-go">
+                                        <div class="track-icon"><i class="fa-solid fa-cloud-sun"></i></div>
+                                        <div class="track-details">
+                                            <h4>Letting Go Visualization</h4>
+                                            <span>5 Minutes • Emotional Release</span>
+                                        </div>
+                                    </div>
+                                    <div class="meditation-track-card" data-track="self-compassion">
+                                        <div class="track-icon"><i class="fa-solid fa-heart-pulse"></i></div>
+                                        <div class="track-details">
+                                            <h4>Self-Compassion Body Scan</h4>
+                                            <span>7 Minutes • Soothing Pain</span>
+                                        </div>
+                                    </div>
+                                    <div class="meditation-track-card" data-track="cord-cutting">
+                                        <div class="track-icon"><i class="fa-solid fa-scissors"></i></div>
+                                        <div class="track-details">
+                                            <h4>Cord Cutting Ceremony</h4>
+                                            <span>6 Minutes • Severing Bonds</span>
+                                        </div>
+                                    </div>
+                                    <div class="meditation-track-card" data-track="affirmations">
+                                        <div class="track-icon"><i class="fa-solid fa-quote-left"></i></div>
+                                        <div class="track-details">
+                                            <h4>Morning Strength Affirmations</h4>
+                                            <span>3 Minutes • Building Focus</span>
+                                        </div>
+                                    </div>
+                                    <div class="meditation-track-card" data-track="evening">
+                                        <div class="track-icon"><i class="fa-solid fa-moon"></i></div>
+                                        <div class="track-details">
+                                            <h4>Evening Gratitude Wind-Down</h4>
+                                            <span>5 Minutes • Deep Sleep Prep</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="meditation-player-card glass-panel card-glow-indigo">
+                                <div class="player-visual-area">
+                                    <div class="timer-ring-wrapper">
+                                        <svg class="timer-ring" width="200" height="200">
+                                            <circle stroke="rgba(255,255,255,0.05)" stroke-width="8" fill="transparent" r="90" cx="100" cy="100" />
+                                            <circle id="meditation-progress" stroke="var(--primary-light)" stroke-width="8" stroke-linecap="round" fill="transparent" r="90" cx="100" cy="100" stroke-dasharray="565.48" stroke-dashoffset="565.48" />
+                                        </svg>
+                                        <div class="timer-countdown" id="meditation-time">05:00</div>
+                                    </div>
+                                    <div class="breathing-prompt" id="meditation-prompt">Select a track and press Play</div>
+                                </div>
+                                <div class="player-controls">
+                                    <button id="btn-meditation-play" class="btn btn-primary btn-round"><i class="fa-solid fa-play"></i></button>
+                                    <button id="btn-meditation-reset" class="btn btn-secondary btn-round ml-3"><i class="fa-solid fa-rotate-left"></i></button>
+                                </div>
+                                <div id="meditation-paywall-overlay" class="meditation-paywall-overlay hidden-paywall">
+                                    <i class="fa-solid fa-lock meditation-lock-icon"></i>
+                                    <h4>Guided Heartbreak Zen</h4>
+                                    <p>Unlock scientifically formulated breathing & mindfulness techniques to ease breakup panic.</p>
+                                    <button class="btn btn-primary btn-upgrade-pro"><i class="fa-solid fa-crown"></i> Unlock Meditation Player</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 8. SETTINGS TAB -->
+                    <div id="tab-settings" class="tab-content hidden-tab animate-fade-in">
+                        <div class="settings-layout glass-panel">
+                            <h3>Settings & Preferences</h3>
+                            <p class="subtitle">Customize your healing path and manage your account.</p>
+                            
+                            <form id="settings-form" class="settings-form">
+                                <div class="form-grid">
+                                    <div class="form-section">
+                                        <label for="settings-ex-name"><i class="fa-solid fa-user-slash icon-margin"></i> Ex's First Name</label>
+                                        <input type="text" id="settings-ex-name">
+                                    </div>
+                                    
+                                    <div class="form-section">
+                                        <label for="settings-start-date"><i class="fa-solid fa-calendar-day icon-margin"></i> Reset / Adjust Start Date</label>
+                                        <input type="datetime-local" id="settings-start-date">
+                                    </div>
+                                    
+                                    <div class="form-section">
+                                        <label for="settings-plan-track"><i class="fa-solid fa-route icon-margin"></i> Healing Plan Track</label>
+                                        <select id="settings-plan-track">
+                                            <option value="30">30-Day Reset</option>
+                                            <option value="60">60-Day Rebuild</option>
+                                            <option value="90">90-Day Transformation</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-section">
+                                        <label><i class="fa-solid fa-volume-high icon-margin"></i> Audio Effects</label>
+                                        <div class="toggle-row">
+                                            <span>Play calming sounds on achievements</span>
+                                            <label class="switch">
+                                                <input type="checkbox" id="settings-sound-toggle" checked>
+                                                <span class="slider round"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-section full-width">
+                                        <label for="settings-openai-key"><i class="fa-solid fa-key icon-margin"></i> OpenAI API Key (Optional)</label>
+                                        <div class="input-password-wrapper">
+                                            <input type="password" id="settings-openai-key" placeholder="sk-proj-..." autocomplete="off">
+                                            <button type="button" id="btn-toggle-key-visibility" class="btn-toggle-visibility" title="Toggle visibility"><i class="fa-solid fa-eye"></i></button>
+                                        </div>
+                                        <small class="helper-text">Supply your own API key to activate the live <strong>Move On AI Therapist</strong>. Left empty, the coach will use our simulated offline scientific fallback bestie. Your key is stored locally in your browser and never sent to any server.</small>
+                                    </div>
+                                </div>
+
+                                <div class="settings-actions">
+                                    <button type="submit" class="btn btn-primary"><i class="fa-solid fa-floppy-disk icon-margin"></i> Save Changes</button>
+                                    <button type="button" id="btn-settings-reset" class="btn btn-danger"><i class="fa-solid fa-trash-can icon-margin"></i> Reset App Data</button>
+                                </div>
+                            </form>
+                            
+                            <div class="data-mgmt-section">
+                                <h4>Data Backup & Portability</h4>
+                                <p class="helper-text">Your healing history resides securely in your local browser storage. You can backup your journals and progress or restore them here.</p>
+                                <div class="btn-group mt-3">
+                                    <button id="btn-export-data" class="btn btn-secondary btn-sm"><i class="fa-solid fa-file-export icon-margin"></i> Export Data (JSON)</button>
+                                    <button id="btn-import-data" class="btn btn-secondary btn-sm"><i class="fa-solid fa-file-import icon-margin"></i> Import Data</button>
+                                    <input type="file" id="import-file-input" style="display:none;" accept=".json">
+                                </div>
+                            </div>
+
+                            <div class="subscription-mgmt-section">
+                                <h4>Account Subscription</h4>
+                                <div id="settings-subscription-status" class="subscription-status-card free">
+                                    <div class="status-info">
+                                        <span class="status-title">Current Plan: <strong>Free Tier</strong></span>
+                                        <p class="status-desc">Upgrade to NoContact Pro to unlock guided meditations, daily check-ins, mood trend analytics, and unlimited AI Therapist support.</p>
+                                    </div>
+                                    <button class="btn btn-primary btn-upgrade-pro"><i class="fa-solid fa-crown icon-margin"></i> Go Pro</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 9. PRICING / UPGRADE TAB -->
+                    <div id="tab-pricing" class="tab-content hidden-tab animate-fade-in">
+                        <div class="pricing-container">
+                            <div class="pricing-header">
+                                <h2>NoContact Pro Membership</h2>
+                                <p class="subtitle">Accelerate your emotional healing with premium scientifically-backed recovery tools.</p>
+                            </div>
+                            
+                            <div class="pricing-cards-grid">
+                                <div class="pricing-card-pro featured-pro" data-tier="monthly">
+                                    <span class="tier-badge popular">Popular Option</span>
+                                    <h3>Monthly Subscription Plan</h3>
+                                    <div class="price-row">
+                                        <span class="currency">$</span>
+                                        <span class="price-val">9.99</span>
+                                        <span class="period">/ month</span>
+                                    </div>
+                                    <p class="tier-description">Complete habit reset, clinical journaling, and direct coach conversations.</p>
+                                    <ul class="tier-features">
+                                        <li><i class="fa-solid fa-circle-check"></i> Unlimited AI therapist sessions</li>
+                                        <li><i class="fa-solid fa-circle-check"></i> Daily Check-in & Mood logging</li>
+                                        <li><i class="fa-solid fa-circle-check"></i> Full Blog Library access</li>
+                                        <li><i class="fa-solid fa-circle-check"></i> Guided meditations</li>
+                                        <li><i class="fa-solid fa-circle-check"></i> Mood Trend Analytics</li>
+                                        <li><i class="fa-solid fa-circle-check"></i> Commenting rights in Community</li>
+                                    </ul>
+                                    <button class="btn btn-primary btn-block btn-select-tier" data-tier="monthly">Subscribe Monthly</button>
+                                </div>
+                                
+                                <div class="pricing-card-pro" data-tier="lifetime">
+                                    <span class="tier-badge">Best Value</span>
+                                    <h3>Lifetime Access Plan</h3>
+                                    <div class="price-row">
+                                        <span class="currency">$</span>
+                                        <span class="price-val">59.99</span>
+                                        <span class="period">one-time</span>
+                                    </div>
+                                    <p class="tier-description">Complete emotional release and lifelong access to all healing vault features.</p>
+                                    <ul class="tier-features">
+                                        <li><i class="fa-solid fa-circle-check"></i> Unlimited AI therapist sessions <strong>(Forever)</strong></li>
+                                        <li><i class="fa-solid fa-circle-check"></i> Daily Check-in & Mood logging <strong>(Forever)</strong></li>
+                                        <li><i class="fa-solid fa-circle-check"></i> Full Blog Library access <strong>(Forever)</strong></li>
+                                        <li><i class="fa-solid fa-circle-check"></i> Guided meditations <strong>(Forever)</strong></li>
+                                        <li><i class="fa-solid fa-circle-check"></i> Mood Trend Analytics <strong>(Forever)</strong></li>
+                                        <li><i class="fa-solid fa-circle-check"></i> Commenting rights in Community <strong>(Forever)</strong></li>
+                                        <li><i class="fa-solid fa-circle-check"></i> Save Unsent Letters to Vault <strong>(Forever)</strong></li>
+                                    </ul>
+                                    <button class="btn btn-secondary btn-block btn-select-tier" data-tier="lifetime">Choose Lifetime</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </main>
+            </div>
+            
+            <!-- Bottom Navigation for Mobile -->
+            <nav class="bottom-nav glass-panel">
+                <ul>
+                    <li class="bottom-nav-item active" data-tab="dashboard">
+                        <i class="fa-solid fa-chart-line"></i>
+                        <span>Tracker</span>
+                    </li>
+                    <li class="bottom-nav-item" data-tab="therapist">
+                        <i class="fa-solid fa-comment-medical"></i>
+                        <span>AI Therapist</span>
+                    </li>
+                    <li class="bottom-nav-item" data-tab="journal">
+                        <i class="fa-solid fa-book-open"></i>
+                        <span>Journal</span>
+                    </li>
+                    <li class="bottom-nav-item" data-tab="community">
+                        <i class="fa-solid fa-users"></i>
+                        <span>Community</span>
+                    </li>
+                    <li class="bottom-nav-item" data-tab="plan">
+                        <i class="fa-solid fa-calendar-check"></i>
+                        <span>Plan</span>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+        <!-- ================= TEMPTATION / EMERGENCY VIEW (FULL SCREEN OVERLAY) ================= -->
+        <div id="temptation-view" class="temptation-overlay hidden-view animate-fade-in">
+            <div class="temptation-container">
+                <header class="temptation-header">
+                    <button id="btn-close-temptation" class="btn btn-icon btn-text"><i class="fa-solid fa-xmark"></i></button>
+                    <h2>Emergency Temptation Shield</h2>
+                    <p>Take a breath. You are in control. Let's process this urge together.</p>
+                </header>
+
+                <!-- Stage 1: Unclown Verification Quiz -->
+                <div id="temptation-quiz-stage" class="temptation-quiz-container glass-panel card-glow-rose animate-fade-in">
+                    <div class="quiz-header">
+                        <span class="quiz-badge"><i class="fa-solid fa-masks-theater"></i> CLOWN GATEWAY</span>
+                        <h3>Urge Audit Checklist</h3>
+                        <p class="subtitle">Before you fold, answer these questions honestly bestie.</p>
+                    </div>
+                    
+                    <div class="quiz-questions-list">
+                        <div class="quiz-question-item active" data-q="1">
+                            <label>1. Did they text you first with a genuine, clear attempt to take accountability? 📱</label>
+                            <div class="quiz-answers">
+                                <button type="button" class="btn btn-secondary quiz-ans-btn" data-val="no">No, absolute silence / breadcrumbs</button>
+                                <button type="button" class="btn btn-secondary quiz-ans-btn" data-val="yes">Yes, they sent a full apology paragraph</button>
+                            </div>
+                        </div>
+                        
+                        <div class="quiz-question-item" data-q="2">
+                            <label>2. Will sending this text actually clear your skin, improve your sleep, and protect your energy? ✨</label>
+                            <div class="quiz-answers">
+                                <button type="button" class="btn btn-secondary quiz-ans-btn" data-val="no">No, I will probably throw up and relapse</button>
+                                <button type="button" class="btn btn-secondary quiz-ans-btn" data-val="yes">Yes, it will magically solve everything</button>
+                            </div>
+                        </div>
+                        
+                        <div class="quiz-question-item" data-q="3">
+                            <label>3. Are you ready to hand back your power to someone who treated you like option C? 👑</label>
+                            <div class="quiz-answers">
+                                <button type="button" class="btn btn-secondary quiz-ans-btn" data-val="no">No, my self-respect looks too good on me</button>
+                                <button type="button" class="btn btn-secondary quiz-ans-btn" data-val="yes">Yes, I am folding for bare minimum effort</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="quiz-results" class="quiz-results hidden-view">
+                        <div class="results-score-box">
+                            <span class="results-emoji" id="results-emoji">🤡</span>
+                            <h4 id="results-title">DELUSIONAL LEVEL: 100%</h4>
+                            <p id="results-desc">Bestie, you are about to fold for absolute breadcrumbs. Put the clown nose down immediately. Step away from the keypad.</p>
+                        </div>
+                        <div class="results-actions">
+                            <button type="button" id="btn-proceed-shield" class="btn btn-danger btn-block"><i class="fa-solid fa-shield-heart icon-margin"></i> Enter Temptation Shield</button>
+                            <button type="button" id="btn-abort-temptation" class="btn btn-secondary btn-block mt-2">I'm Good, Close Shield</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stage 2: Breathing & Unsent Message Shield (Original Grid) -->
+                <div id="temptation-shield-stage" class="temptation-grid hidden-view">
+                    <!-- Left Side: Breathing Guide & Urge Timer -->
+                    <div class="breathing-guide-card glass-panel card-glow-rose">
+                        <h3>Ground Yourself</h3>
+                        <p class="subtitle">Focus on your breathing for just 60 seconds.</p>
+                        
+                        <div class="breathing-circle-wrapper">
+                            <div class="breathing-circle" id="breathing-circle"></div>
+                            <span class="breathing-text" id="breathing-text">Inhale...</span>
+                        </div>
+                        
+                        <div class="urgency-cooldown">
+                            <p>Urge cooldown active:</p>
+                            <span class="cooldown-timer" id="cooldown-timer">05:00</span>
+                        </div>
+                    </div>
+
+                    <!-- Right Side: Unsent Message Box & Whys -->
+                    <div class="temptation-exercise-card glass-panel">
+                        <h3>Write the Unsent Message</h3>
+                        <p class="subtitle">Pour everything you want to say to them in this box. It stays here. It will never be sent to them. Release the burden.</p>
+                        
+                        <div class="form-section">
+                            <textarea id="unsent-message-input" rows="5" placeholder="Type your text, your anger, your tears, your questions here..."></textarea>
+                        </div>
+                        
+                        <div class="button-row">
+                            <button id="btn-burn-message" class="btn btn-danger btn-block"><i class="fa-solid fa-fire"></i> Burn and Release Message</button>
+                        </div>
+                        
+                        <div class="my-whys-section">
+                            <h4>Remember Why You Started:</h4>
+                            <ul id="temptation-whys-list" class="whys-list">
+                                <!-- Populated dynamically based on user onboarding -->
+                                <li><i class="fa-solid fa-circle-exclamation text-danger"></i> To rebuild my self-respect</li>
+                                <li><i class="fa-solid fa-circle-exclamation text-danger"></i> Because I deserve emotional consistency</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= ARTICLE MODAL ================= -->
+        <div id="article-modal" class="modal-overlay hidden-view animate-fade-in">
+            <div class="modal-card glass-panel">
+                <div class="ios-drag-handle"></div>
+                <header class="modal-header">
+                    <span class="category-badge" id="modal-article-category">Psychology</span>
+                    <button id="btn-close-modal" class="btn btn-icon btn-text"><i class="fa-solid fa-xmark"></i></button>
+                </header>
+                <div class="modal-body" id="modal-article-body">
+                    <!-- Populated by JS -->
+                    <h2 id="modal-article-title">Article Title</h2>
+                    <div class="article-content" id="modal-article-content">
+                        <!-- Text paragraphs -->
+                    </div>
+                </div>
+                <footer class="modal-footer">
+                    <button id="btn-modal-close-footer" class="btn btn-secondary">Close Article</button>
+                </footer>
+            </div>
+        </div>
+
+        <!-- ================= DAILY CHECK-IN MODAL ================= -->
+        <div id="checkin-modal" class="modal-overlay hidden-view animate-fade-in">
+            <div class="modal-card checkin-modal-card glass-panel card-glow-indigo">
+                <div class="ios-drag-handle"></div>
+                <header class="modal-header">
+                    <h3><i class="fa-solid fa-clipboard-question text-primary"></i> Daily Recovery Check-in</h3>
+                    <button id="btn-close-checkin" class="btn btn-icon btn-text"><i class="fa-solid fa-xmark"></i></button>
+                </header>
+                <div class="modal-body">
+                    <form id="checkin-form">
+                        <!-- Mood Slider -->
+                        <div class="form-section">
+                            <label>How is your mood right now? (1-10)</label>
+                            <div class="mood-slider-container">
+                                <span class="slider-emoji" id="checkin-mood-emoji">🧘</span>
+                                <input type="range" id="checkin-mood-slider" min="1" max="10" value="5" class="mood-slider">
+                                <span class="slider-val" id="checkin-mood-val">5/10</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Sleep Quality -->
+                        <div class="form-section">
+                            <label>How was your sleep last night?</label>
+                            <div class="sleep-buttons-row">
+                                <button type="button" class="sleep-btn" data-val="1">😢 Poor</button>
+                                <button type="button" class="sleep-btn" data-val="2">😐 Fair</button>
+                                <button type="button" class="sleep-btn active" data-val="3">😊 Good</button>
+                                <button type="button" class="sleep-btn" data-val="4">🌟 Great</button>
+                            </div>
+                        </div>
+                        
+                        <!-- Temptation Level -->
+                        <div class="form-section">
+                            <label>Did you feel tempted to contact them today?</label>
+                            <div class="tempt-buttons-row">
+                                <button type="button" class="tempt-btn active" data-val="0">🛡️ No</button>
+                                <button type="button" class="tempt-btn" data-val="1">Mild</button>
+                                <button type="button" class="tempt-btn" data-val="2">Intense</button>
+                                <button type="button" class="tempt-btn" data-val="3">Relapsed</button>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary btn-block">Submit Check-in</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= PAYWALL MODAL ================= -->
+        <div id="paywall-modal" class="modal-overlay hidden-view animate-fade-in">
+            <div class="modal-card paywall-modal-card glass-panel card-glow-indigo">
+                <div class="ios-drag-handle"></div>
+                <header class="modal-header">
+                    <h3><i class="fa-solid fa-crown text-warning"></i> Access Denied</h3>
+                    <button id="btn-close-paywall" class="btn btn-icon btn-text"><i class="fa-solid fa-xmark"></i></button>
+                </header>
+                <div class="modal-body text-center">
+                    <div class="lock-graphic">
+                        <i class="fa-solid fa-lock paywall-lock-anim"></i>
+                    </div>
+                    <h2>NoContact Pro Feature</h2>
+                    <p class="paywall-description" id="paywall-feature-desc">This premium tool is designed to support your journey. Upgrade to unlock full access.</p>
+                    <button id="btn-paywall-upgrade" class="btn btn-primary btn-block mt-4"><i class="fa-solid fa-rocket icon-margin"></i> View Pro Pricing Plans</button>
+                    <button id="btn-paywall-close-footer" class="btn btn-text btn-block mt-2">Maybe Later</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= PAYMENT MODAL ================= -->
+        <div id="payment-modal" class="modal-overlay hidden-view animate-fade-in">
+            <div class="modal-card payment-modal-card glass-panel card-glow-indigo">
+                <div class="ios-drag-handle"></div>
+                <header class="modal-header">
+                    <h3>Secure Checkout</h3>
+                    <button id="btn-close-payment" class="btn btn-icon btn-text"><i class="fa-solid fa-xmark"></i></button>
+                </header>
+                <div class="modal-body">
+                    <div class="credit-card-preview glass-panel">
+                        <div class="card-brand"><i class="fa-brands fa-cc-visa"></i> Visa</div>
+                        <div class="card-chip"></div>
+                        <div class="card-number-display" id="cc-number-preview">•••• •••• •••• ••••</div>
+                        <div class="card-footer">
+                            <div class="card-holder">
+                                <label>Cardholder</label>
+                                <div id="cc-name-preview">HEALER</div>
+                            </div>
+                            <div class="card-expires">
+                                <label>Expires</label>
+                                <div id="cc-expiry-preview">MM/YY</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <form id="payment-form" class="payment-form">
+                        <div class="form-section">
+                            <label for="cc-name">Name on Card</label>
+                            <input type="text" id="cc-name" placeholder="e.g. Alex Smith" required autocomplete="off">
+                        </div>
+                        <div class="form-section">
+                            <label for="cc-number">Card Number</label>
+                            <input type="text" id="cc-number" placeholder="4111 2222 3333 4444" maxlength="19" required autocomplete="off">
+                        </div>
+                        <div class="form-grid-2">
+                            <div class="form-section">
+                                <label for="cc-expiry">Expiry Date</label>
+                                <input type="text" id="cc-expiry" placeholder="MM/YY" maxlength="5" required autocomplete="off">
+                            </div>
+                            <div class="form-section">
+                                <label for="cc-cvc">CVC</label>
+                                <input type="password" id="cc-cvc" placeholder="***" maxlength="3" required autocomplete="off">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block" id="btn-confirm-payment">Pay and Upgrade</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= COMMUNITY COMMENTS MODAL DRAWER ================= -->
+        <div id="comments-modal" class="modal-overlay hidden-view animate-fade-in">
+            <div class="modal-card comments-modal-card glass-panel card-glow-indigo">
+                <div class="ios-drag-handle"></div>
+                <header class="modal-header">
+                    <h3><i class="fa-solid fa-comments text-primary"></i> Comments</h3>
+                    <button id="btn-close-comments" class="btn btn-icon btn-text"><i class="fa-solid fa-xmark"></i></button>
+                </header>
+                <div class="modal-body">
+                    <div class="comments-list-container" id="comments-list">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+                <footer class="comments-footer">
+                    <form id="comment-input-form" class="comment-input-form">
+                        <input type="text" id="comment-reply-text" placeholder="Add an anonymous support reply..." autocomplete="off" required>
+                        <button type="submit" class="btn btn-primary btn-round" title="Send Comment">
+                            <i class="fa-solid fa-paper-plane"></i>
+                        </button>
+                    </form>
+                </footer>
+            </div>
+        </div>
+
+        <!-- ================= TOAST CONTAINER ================= -->
+        <div id="toast-container" class="toast-container"></div>
+
+    </div>
+
+    <!-- Puter.js keyless LLM SDK -->
+    <script src="https://js.puter.com/v2/"></script>
+    <!-- Application Script File -->
+    <script src="app.js?v=3.0"></script>
+</body>
+</html>
