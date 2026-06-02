@@ -1258,7 +1258,7 @@ async function fetchOpenAiCompletion(userText, typingBubble, container) {
         role: "system",
         content: `${personaPrompt} 
         The user is following a ${state.selectedPlan}-day healing plan. 
-        Rules: Keep answers concise (under 3 paragraphs). Use visual bullet points, line breaks, and emojis. Never speak robotically. Suggest app features like "Temptation Shield" (to burn letters) or "My Era Logs" (journals) if relevant.`
+        Rules: Keep responses extremely short, highly interactive, and natural like a real friend texting back. Strictly write ONLY 1 to 2 sentences per response. Never write paragraphs, bullet points, lists, or structured advice. Keep the conversation flowing by ending with a short, supportive follow-up question based on what the user said.`
     };
 
     // Prepare full messages payload
@@ -1329,7 +1329,7 @@ async function fetchPuterAiCompletion(userText, typingBubble, container) {
 
     const systemPrompt = `${personaPrompt} 
     The user is following a ${state.selectedPlan}-day healing plan. 
-    Rules: Keep answers concise (under 3 paragraphs). Use visual bullet points, line breaks, and emojis. Never speak robotically. Suggest app features like "Temptation Shield" (to burn letters) or "My Era Logs" (journals) if relevant.`;
+    Rules: Keep responses extremely short, highly interactive, and natural like a real friend texting back. Strictly write ONLY 1 to 2 sentences per response. Never write paragraphs, bullet points, lists, or structured advice. Keep the conversation flowing by ending with a short, supportive follow-up question based on what the user said.`;
 
     const messages = [
         { role: "system", content: systemPrompt },
@@ -1430,148 +1430,148 @@ function getTherapistResponse(text) {
     if (vibe === 'baddie') {
         // Physical activities
         if (lower.includes('walk') || lower.includes('run') || lower.includes('gym') || lower.includes('workout') || lower.includes('exercise')) {
-            return `Slay bestie! 🏃‍♀️ Getting moving (gym, walks, workouts) is literally a 10/10 way to flush out those nasty stress hormones and distance yourself from ${ex}'s toxic energy. You are on Day ${days} of your glow-up era, and building that main character energy. Proud of you!`;
+            return `Slay bestie! Getting moving is a 10/10 way to flush ${ex}'s basic energy out of your system. You're on Day ${days} of No Contact—what workout did you crush today? 🏃‍♀️💅`;
         }
         // Stalking / social media
         if (lower.includes('stalk') || lower.includes('instagram') || lower.includes('tiktok') || lower.includes('check') || lower.includes('social media')) {
-            return `Stop right there, bestie! 🚨 Checking ${ex}'s Instagram/TikTok is literal digital self-harm. You are on Day ${days} of No Contact—do not let a 2-second peek reset your gorgeous streak. Close the app and go do some skincare immediately. 💅`;
+            return `Stop right there, bestie! 🚨 Checking ${ex}'s socials is literal digital self-harm. You're on Day ${days}—put the phone down and go do some skincare, deal? 💅`;
         }
         // Music / Songs
         if (lower.includes('song') || lower.includes('music') || lower.includes('playlist')) {
-            return `Bestie, music is powerful, but if you are listening to sad breakup tracks, you are manifesting clown energy. 🤡 Switch to our high-energy 'No-Breakup' playlist or some upbeat bops. You deserve premium vibes only!`;
+            return `Music is powerful, but listening to sad tracks is manifesting clown energy, bestie! 🤡 Can we switch to upbeat bops to keep your main character glow active?`;
         }
         // Dreams / Sleep
         if (lower.includes('dream') || lower.includes('sleep') || lower.includes('nightmare')) {
-            return `Ugh, dreams are the worst because ${ex} is showing up rent-free in your subconscious. 😤 It's just your brain cleaning house while you sleep. Keep sticking to your routines on Day ${days}; your dreams will clear out soon, I promise!`;
+            return `Dreams are the worst because ${ex} is showing up rent-free in your head. 😤 It's just your brain cleaning house while you sleep—how are you feeling this morning?`;
         }
         // Drunk / Alcohol
         if (lower.includes('drunk') || lower.includes('drink') || lower.includes('beer') || lower.includes('wine') || lower.includes('alcohol')) {
-            return `Emergency bestie warning! 🚨 Lowered inhibitions + heartbreak = a recipe for folding and texting ${ex}. If you are out drinking, hand your phone to a trusted friend or activate our <strong>Temptation Shield</strong> immediately! Protect your streak!`;
+            return `Emergency bestie warning! 🚨 Lowered inhibitions + heartbreak = a recipe for folding and texting ${ex}. Can you hand your phone to a friend or turn on Temptation Shield immediately?`;
         }
         // Friends / Family
         if (lower.includes('friend') || lower.includes('family') || lower.includes('mom') || lower.includes('dad') || lower.includes('sister')) {
-            return `Obsessed with this for you! 💖 Leaning on your besties or family is exactly how you rebuild. You are not in this alone, and sharing your journey makes Day ${days} so much easier to get through.`;
+            return `Obsessed with this! 💖 Leaning on your besties or family is exactly how you rebuild. How did they help support you today?`;
         }
         // Standard text/contact
         if (lower.includes('text') || lower.includes('contact') || lower.includes('call') || lower.includes('reach out') || lower.includes('message')) {
-            return `Bestie, PUT THE PHONE DOWN. 🤡 Texting ${ex} is absolute clown behavior. They are literally mid and you are a whole premium subscription membership. Open our <strong>Temptation Shield</strong> at the top right, write that message, and burn it to ashes right now. 💅`;
+            return `Bestie, PUT THE PHONE DOWN! 🤡 Texting ${ex} is absolute clown behavior. Can we open the Temptation Shield at the top right, write it out, and burn it to ashes instead? 💅`;
         }
         // Why is it hard
         if (lower.includes('why') && (lower.includes('hard') || lower.includes('difficult') || lower.includes('painful') || lower.includes('hurt'))) {
-            return `It hurts because your brain is literally detoxing from their presence, bestie. Reclaiming your main character energy on Day ${days} takes actual work! Drink some water, do a skincare routine, and remind yourself that you are the absolute prize. 👑`;
+            return `It hurts because your brain is literally detoxing from their presence, bestie. Reclaiming your main character energy on Day ${days} takes work—have you had some water today? 👑`;
         }
         // Missing them
         if (lower.includes('miss') || lower.includes('memory') || lower.includes('remember')) {
-            return `Missing them? Delusional bestie alert! 🚨 Your brain is filtering out the bad times and romanticizing the bare minimum they gave you. Focus on your own glow-up era on Day ${days} and let them watch you thrive from the blocks. 💅`;
+            return `Missing them? Delusional bestie alert! 🚨 Your brain is filtering out the bad times and romanticizing the bare minimum they gave you. What's one reason you established boundaries in the first place?`;
         }
         // Anger
         if (lower.includes('angry') || lower.includes('hate') || lower.includes('unfair') || lower.includes('mad')) {
-            return `Channel that anger! 😡 That's your self-respect waking up and realizing ${ex} didn't deserve your premium vibe anyway. Block their details, maintain silence on Day ${days}, and let your glow-up do the talking. 🚫`;
+            return `Channel that anger, bestie! 😡 That's your self-respect waking up and realizing they didn't deserve your premium vibe. Can we block them and let our silence do the talking?`;
         }
         // Sadness
         if (lower.includes('sad') || lower.includes('cry') || lower.includes('lonely') || lower.includes('depressed') || lower.includes('tear')) {
-            return `Screaming, crying, throwing up is a valid phase, bestie. Let the tears fall, but remember: you aren't lonely, you're just adjusting to absolute peace. Go wrap yourself in a blanket and eat comfort foods. 💖`;
+            return `Screaming, crying, throwing up is a valid phase, bestie. Let the tears fall, but remember: you aren't lonely, you're just adjusting to absolute peace. Want to grab a cozy blanket?`;
         }
         // Default
-        return `I hear you, bestie. Your energy is too premium for that situation. Since we are on Day ${days} of your No Contact Era, what is one small thing we can do today to focus on our own glow-up? ✨`;
+        return `I hear you, bestie. Your energy is too premium for that situation on Day ${days}. What is one small thing we can do right now to focus on your own glow-up era? ✨`;
     }
 
     if (vibe === 'savage') {
         // Physical activities
         if (lower.includes('walk') || lower.includes('run') || lower.includes('gym') || lower.includes('workout') || lower.includes('exercise')) {
-            return `Good. Using your body (gym, walking, workouts) is the only smart thing you've done today. 💀 Sweating burns off the delusional hope of contacting ${ex}. Keep moving and stay strong on Day ${days} of No Contact.`;
+            return `Good. Sweating burns off the delusional hope of contacting ${ex}. Keep moving on Day ${days} of No Contact—are you actually locking in, or just pretending? 💀`;
         }
         // Stalking / social media
         if (lower.includes('stalk') || lower.includes('instagram') || lower.includes('tiktok') || lower.includes('check') || lower.includes('social media')) {
-            return `What are you looking for on ${ex}'s profile? A sign they miss you? Let me save you the time: they don't. 💀 Checking their updates is embarrassing. Put the phone down, lock your profile, and act like you have some pride on Day ${days}.`;
+            return `Checking ${ex}'s updates is embarrassing. 💀 Let me save you the time: they don't miss you. Put the phone down and act like you have some pride on Day ${days}, okay?`;
         }
         // Music / Songs
         if (lower.includes('song') || lower.includes('music') || lower.includes('playlist')) {
-            return `Let me guess, listening to sad love songs and staring at the ceiling? 💀 Stop feeding your own heartbreak loop. Listen to something that makes you want to build a business, not cry over a basic ex.`;
+            return `Staring at the ceiling listening to sad songs? 💀 Stop feeding your own heartbreak loop. Can you listen to something that makes you want to level up instead?`;
         }
         // Dreams / Sleep
         if (lower.includes('dream') || lower.includes('sleep') || lower.includes('nightmare')) {
-            return `So ${ex} is haunting your dreams. Big deal. Your brain is just cleaning out toxic waste while you sleep. Don't let a random REM cycle make you act delusional during the day. Lock back in for Day ${days}.`;
+            return `So they haunted your dreams. Big deal. Don't let a random REM cycle make you act delusional during the day. Are you ready to lock back in for Day ${days}?`;
         }
         // Drunk / Alcohol
         if (lower.includes('drunk') || lower.includes('drink') || lower.includes('beer') || lower.includes('wine') || lower.includes('alcohol')) {
-            return `If you text ${ex} while drunk, you are officially signing up for 100% pure humiliation. 🤡 Turn off your phone or delete their number before you wake up tomorrow regretting everything. Protect your Day ${days} streak.`;
+            return `Texting ${ex} while drunk is official clown behavior. 🤡 Hand your phone to someone else before you wake up tomorrow regretting everything—agreed?`;
         }
         // Friends / Family
         if (lower.includes('friend') || lower.includes('family') || lower.includes('mom') || lower.includes('dad') || lower.includes('sister')) {
-            return `Good. Listen to your friends and family because they are the ones who have to listen to you talk about ${ex} all day. They want you to move on. Stay strong for them, and for yourself.`;
+            return `Good. Listen to your friends because they are tired of hearing you talk about ${ex} all day. Are you actually going to take their advice this time?`;
         }
         // Standard text/contact
         if (lower.includes('text') || lower.includes('contact') || lower.includes('call') || lower.includes('reach out') || lower.includes('message')) {
-            return `You want to text ${ex}? Did you drop your crown in the toilet or what? 🤡 They literally treated you like Option C. Stop embarrassing yourself. Open our <strong>Temptation Shield</strong> right now, type the draft, and burn it. Do not hit send. 💀`;
+            return `You want to text ${ex}? Did you drop your self-respect in the toilet? 🤡 They treated you like Option C. Open our Temptation Shield right now and burn that text draft immediately.`;
         }
         // Why is it hard
         if (lower.includes('why') && (lower.includes('hard') || lower.includes('difficult') || lower.includes('painful') || lower.includes('hurt'))) {
-            return `It's painful because you got addicted to mistreatment. Your brain is having severe chemical withdrawal from toxic relationship loops. Sit with the empty silence on Day ${days}. Reclaiming your self-respect is not supposed to feel like a spa day. 💀`;
+            return `It's painful because you got addicted to mistreatment and toxic loops. Reclaiming your pride on Day ${days} isn't supposed to feel like a spa day. What are you doing today to stand strong? 💀`;
         }
         // Missing them
         if (lower.includes('miss') || lower.includes('memory') || lower.includes('remember')) {
-            return `You don't miss them. You miss the fake fantasy version of them you made up in your head. The actual version of ${ex} was inconsistent and basic. Stop romanticizing garbage. 🔒`;
+            return `You don't miss them. You miss the fake fantasy version of them you made up in your head. The real ${ex} was inconsistent and basic—why are you romanticizing garbage?`;
         }
         // Anger
         if (lower.includes('angry') || lower.includes('hate') || lower.includes('unfair') || lower.includes('mad')) {
-            return `Anger is fine, but using it to message them is weak. Your absolute silence on Day ${days} is the only closure they deserve. Keep them blocked and channel that energy into your own bank account. 📈`;
+            return `Anger is fine, but using it to message them is weak. Your absolute silence on Day ${days} is the only closure they deserve. Ready to keep them blocked and win the breakup? 💀`;
         }
         // Sadness
         if (lower.includes('sad') || lower.includes('cry') || lower.includes('lonely') || lower.includes('depressed') || lower.includes('tear')) {
-            return `Cry it out, but don't fold. Loneliness is just the chemical price you pay for clearing out the trash on Day ${days}. Stand tall and let the silence heal you. 💀`;
+            return `Cry it out, but don't fold. Loneliness is just the chemical price you pay for clearing out the trash. Are you ready to stand tall and let the silence heal you?`;
         }
         // Default
-        return `That's a lot of text for 'I'm thinking about folding.' You are on Day ${days} of No Contact. You are stronger than a chemical urge. Lock in, focus, and protect your boundaries. 💀`;
+        return `That's a lot of text for 'I'm thinking about folding.' You are on Day ${days} of No Contact—are you going to protect your boundaries or act like a clown? 💀`;
     }
 
     // Default 'scientific' vibe
     // Physical activities
     if (lower.includes('walk') || lower.includes('run') || lower.includes('gym') || lower.includes('workout') || lower.includes('exercise')) {
-        return `Engaging in physical activity like a walk or workout triggers the release of endorphins while metabolizing excess cortisol and adrenaline. It is a scientifically proven way to calm your amygdala's 'fight-or-flight' stress alarm. You are supporting your neurobiological recovery on Day ${days} of No Contact. Keep it up!`;
+        return `Physical exertion triggers endorphin release while metabolizing excess cortisol. It is a scientifically proven way to calm your amygdala's stress response on Day ${days}. Did you feel a shift in your anxiety level after working out? 🧠`;
     }
     // Stalking / social media
     if (lower.includes('stalk') || lower.includes('instagram') || lower.includes('tiktok') || lower.includes('check') || lower.includes('social media')) {
-        return `Looking at ${ex}'s social media triggers a brief spike of dopamine in your reward pathway, followed by an immediate drop that reinforces attachment anxiety. It acts similarly to drug seeking in addiction studies. On Day ${days}, maintaining total visual boundaries is essential to allow your neural pathways to rewire.`;
+        return `Checking ${ex}'s profile triggers a brief dopamine spike followed by an immediate drop that reinforces attachment anxiety. On Day ${days}, maintaining strict visual boundaries is essential for your neural pathways to rewire. Can you close the tab?`;
     }
     // Music / Songs
     if (lower.includes('song') || lower.includes('music') || lower.includes('playlist')) {
-        return `Auditory triggers (songs) are highly linked to memory structures in the hippocampus. If you listen to nostalgic music, you trigger cravings. Consider switching to upbeat or instrumental tracks to stimulate your brain's motor networks rather than emotional memories.`;
+        return `Nostalgic music activates memory structures in the hippocampus, which triggers emotional cravings. Switching to upbeat or instrumental tracks is scientifically proven to reduce neural attachment. Shall we try that today?`;
     }
     // Dreams / Sleep
     if (lower.includes('dream') || lower.includes('sleep') || lower.includes('nightmare')) {
-        return `During REM sleep, your brain consolidates emotional memories, which often causes ${ex} to appear in your dreams. This is a standard cognitive processing phase. While unsettling on Day ${days}, it is a sign that your brain is actively working to catalog and file away past attachments.`;
+        return `REM sleep consolidates emotional memories, which often causes ${ex} to appear in your dreams. It is a standard cognitive processing phase on Day ${days} showing that your brain is actively filing past attachments away. How is your energy today?`;
     }
     // Drunk / Alcohol
     if (lower.includes('drunk') || lower.includes('drink') || lower.includes('beer') || lower.includes('wine') || lower.includes('alcohol')) {
-        return `Alcohol consumption depresses the prefrontal cortex, which is responsible for executive function, impulse control, and boundary preservation. This significantly increases your vulnerability to breaking No Contact. If you drink, ensure you have safeguards in place to protect your Day ${days} recovery.`;
+        return `Alcohol depresses the prefrontal cortex, which is responsible for impulse control and boundary preservation. This significantly increases your vulnerability to breaking No Contact. Can you set up a screen time lock before you head out?`;
     }
     // Friends / Family
     if (lower.includes('friend') || lower.includes('family') || lower.includes('mom') || lower.includes('dad') || lower.includes('sister')) {
-        return `Social support activates the release of oxytocin, which naturally buffers cortisol (stress) levels and stimulates feelings of safety. Discussing your feelings on Day ${days} with a trusted social network is highly recommended for emotional regulation.`;
+        return `Social support activates oxytocin, which naturally buffers cortisol stress levels. Discussing your feelings on Day ${days} with a trusted network is highly recommended for emotional regulation. Have you reached out to someone today?`;
     }
     // Standard text/contact
     if (lower.includes('text') || lower.includes('contact') || lower.includes('call') || lower.includes('reach out') || lower.includes('message')) {
-        return `It is completely natural to want to text ${ex}. When we break contact, our brain craves dopamine. Remember, texting them won't bring you the closure you want; it will only open old wounds. Take a deep breath. Can you go 10 minutes without hitting send? Open our <strong>Temptation Shield</strong> at the top right to burn the message instead.`;
+        return `Wanting to text is a standard neurobiological response to dopamine withdrawal, but breaking contact won't bring closure. Take a deep breath. Can you use our Temptation Shield to burn the message instead?`;
     }
     // Why is it hard
     if (lower.includes('why') && (lower.includes('hard') || lower.includes('difficult') || lower.includes('painful') || lower.includes('hurt'))) {
-        return `No Contact is incredibly hard because it's a form of physiological detox. Your brain is trying to rewire itself on Day ${days} after being accustomed to attachment patterns. Rebuilding this self-concept takes time. Be gentle with your body right now. Drink some water and give yourself credit for standing strong.`;
+        return `No Contact is difficult because your brain is undergoing physiological detox and neural rewiring on Day ${days}. Be gentle with your body during this adjustment. Have you had a glass of water recently?`;
     }
     // Missing them
     if (lower.includes('miss') || lower.includes('memory') || lower.includes('remember')) {
-        return `Missing them is a reflection of your capacity to love, not a sign that you made the wrong decision. Your brain tends to filter out the bad memories and glorify the good ones during breakups. Reflect on your onboarding list: 'Why did we separate?' Your growth on Day ${days} depends on looking forward, not backwards.`;
+        return `Missing them is a reflection of your capacity to love, not a sign that you made a mistake. Hearts filter out negative memories during grief. Can you reflect on why you established these boundaries in the first place?`;
     }
     // Anger
     if (lower.includes('angry') || lower.includes('hate') || lower.includes('unfair') || lower.includes('mad')) {
-        return `I hear your anger, and it is fully justified. Anger is actually a healthy sign that your self-protective boundaries are waking up. It means you recognize you deserved better. Let yourself feel the anger, write it down in your <strong>Journal</strong> to get it out of your system, but don't act on it by lashing out at ${ex}. Your silence on Day ${days} is your ultimate power.`;
+        return `Anger is a healthy indicator that your self-protective boundaries are functioning. Let yourself feel it and log it in your journal to discharge the energy. Your silence on Day ${days} is your ultimate power—would you like to write a draft?`;
     }
     // Sadness
     if (lower.includes('sad') || lower.includes('cry') || lower.includes('lonely') || lower.includes('depressed') || lower.includes('tear')) {
-        return `Grief is the price we pay for caring. It is completely okay to cry and feel lonely right now. Healing is not linear—some days will feel like a regression. Reach out to a close friend, take a hot shower, and remember: you are not lonely; you are just in the process of returning to yourself.`;
+        return `Grief is non-linear and feeling lonely is a natural part of attachment de-escalation. You are not lonely; your brain is just returning to its peaceful baseline. Can you treat yourself to a hot shower or tea?`;
     }
 
-    return `Thank you for sharing that with me. It takes real courage to express these thoughts. Every day you maintain No Contact, you are reclaiming a piece of your peace and self-worth. Since we are on Day ${days}, what is one small thing you can do for yourself today to feel comfortable?`;
+    return `Every day you maintain No Contact, you are reclaiming a piece of your peace and self-worth. Since we are on Day ${days}, what is one small thing you can do for yourself today to feel comfortable? 🧠`;
 }
 
 function scrollToBottom(element) {
