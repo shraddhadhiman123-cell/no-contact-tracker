@@ -11,7 +11,7 @@
     <!-- FontAwesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Custom Style Sheet -->
-    <link rel="stylesheet" href="style.css?v=5.0">
+    <link rel="stylesheet" href="style.css?v=6.0">
 </head>
 <body>
     <!-- Floating Psychological Color Blobs for Premium Aesthetics -->
@@ -423,6 +423,15 @@
                                             </select>
                                         </div>
                                         <div class="form-section">
+                                            <label>Vibe Templates (Quick Pre-fill)</label>
+                                            <div class="chip-group vibe-template-chips">
+                                                <div class="chip vibe-temp" data-template="tempted">🚨 I'm Tempted</div>
+                                                <div class="chip vibe-temp" data-template="angry">😡 Unclowned Vent</div>
+                                                <div class="chip vibe-temp" data-template="sad">😢 Feeling Heavy</div>
+                                                <div class="chip vibe-temp" data-template="victory">✨ Streak Win</div>
+                                            </div>
+                                        </div>
+                                        <div class="form-section">
                                             <label for="post-content">Write message (Anonymously)</label>
                                             <textarea id="post-content" rows="4" placeholder="Write from the heart. Be kind. We are all here to heal..." required></textarea>
                                         </div>
@@ -638,6 +647,12 @@
                                             <button type="button" id="btn-toggle-key-visibility" class="btn-toggle-visibility" title="Toggle visibility"><i class="fa-solid fa-eye"></i></button>
                                         </div>
                                         <small class="helper-text">Supply your own API key to activate the live <strong>Move On AI Therapist</strong>. Left empty, the coach will use our simulated offline scientific fallback bestie. Your key is stored locally in your browser and never sent to any server.</small>
+                                    </div>
+
+                                    <div class="form-section full-width">
+                                        <label for="settings-db-bucket"><i class="fa-solid fa-database icon-margin"></i> Custom Database Bucket ID (Optional)</label>
+                                        <input type="text" id="settings-db-bucket" placeholder="e.g., custom_community_v1" autocomplete="off">
+                                        <small class="helper-text">Leave blank to use the shared public database feed. Enter a unique text ID to isolate your own private community feed.</small>
                                     </div>
                                 </div>
 
@@ -1024,6 +1039,6 @@
     <!-- Puter.js keyless LLM SDK -->
     <script src="https://js.puter.com/v2/"></script>
     <!-- Application Script File -->
-    <script src="app.js?v=5.0"></script>
+    <script src="app.js?v=6.0"></script>
 </body>
 </html>

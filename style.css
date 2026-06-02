@@ -1416,6 +1416,44 @@ h4 { font-size: 1rem; font-weight: 600; }
     white-space: pre-wrap;
 }
 
+.reaction-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.reaction-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--panel-border);
+    padding: 6px 12px;
+    border-radius: var(--radius-sm);
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.reaction-chip:hover {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: var(--panel-border-hover);
+    color: var(--text-primary);
+}
+
+.reaction-chip.active {
+    background: var(--primary-glow);
+    border-color: var(--primary);
+    color: var(--text-primary);
+    box-shadow: 0 0 8px var(--primary-glow);
+}
+
+.react-count {
+    font-weight: 600;
+}
+
 .post-footer {
     display: flex;
     gap: 20px;

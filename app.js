@@ -19,7 +19,8 @@ const DEFAULT_STATE = {
     unsentLettersVault: [], // Saved letters (lifetime/pro vault feature)
     openAiApiKey: '',
     coachVibe: 'scientific',
-    postComments: {} // Maps postId -> Array of comments
+    postComments: {}, // Maps postId -> Array of comments
+    dbBucket: '' // Custom community database bucket (optional)
 };
 
 let state = { ...DEFAULT_STATE };
@@ -587,7 +588,7 @@ function switchTab(tabName) {
     } else if (tabName === 'journal') {
         renderJournalHistory();
     } else if (tabName === 'community') {
-        renderCommunityPosts();
+        loadAndRenderCommunity();
     } else if (tabName === 'plan') {
         renderPlanCalendar();
     }
@@ -1714,9 +1715,156 @@ function renderJournalHistory(filterText = '') {
 }
 
 // ==========================================================================
-// TAB 4: MOCK COMMUNITY LOGIC
+// TAB 4: REAL-TIME COMMUNITY LOGIC (v6.0)
 // ==========================================================================
 let currentFilter = 'all';
+
+function getBucketUrl() {
+    const bucket = state.dbBucket ? state.dbBucket.trim() : 'no_contact_tracker_community_v4';
+    return `https://kvdb.io/${bucket}`;
+}
+
+async function fetchLiveCommunityData() {
+    try {
+        const bucketUrl = getBucketUrl();
+        const postsRes = await fetch(`${bucketUrl}/posts`);
+        let livePosts = null;
+        if (postsRes.ok) {
+            const txt = await postsRes.text();
+            if (txt.trim()) {
+                livePosts = JSON.parse(txt);
+            }
+        }
+        
+        const commentsRes = await fetch(`${bucketUrl}/comments`);
+        let liveComments = null;
+        if (commentsRes.ok) {
+            const txt = await commentsRes.text();
+            if (txt.trim()) {
+                liveComments = JSON.parse(txt);
+            }
+        }
+        
+        return { posts: livePosts, comments: liveComments };
+    } catch (err) {
+        console.error("Failed to fetch live community data:", err);
+        return { posts: null, comments: null };
+    }
+}
+
+async function saveLiveCommunityData(posts, comments) {
+    try {
+        const bucketUrl = getBucketUrl();
+        if (posts) {
+            await fetch(`${bucketUrl}/posts`, {
+                method: 'POST',
+                body: JSON.stringify(posts)
+            });
+        }
+        if (comments) {
+            await fetch(`${bucketUrl}/comments`, {
+                method: 'POST',
+                body: JSON.stringify(comments)
+            });
+        }
+    } catch (err) {
+        console.error("Failed to save live community data:", err);
+    }
+}
+
+async function loadAndRenderCommunity() {
+    const container = document.getElementById('community-posts-container');
+    if (container) {
+        container.innerHTML = `
+            <div class="empty-state">
+                <i class="fa-solid fa-circle-notch fa-spin"></i>
+                <p>Connecting to live network feed...</p>
+            </div>
+        `;
+    }
+    
+    const { posts, comments } = await fetchLiveCommunityData();
+    
+    if (posts && posts.length > 0) {
+        state.userPosts = posts;
+    } else {
+        state.userPosts = [...SEED_COMMUNITY_POSTS];
+        await saveLiveCommunityData(state.userPosts, null);
+    }
+    
+    if (comments && Object.keys(comments).length > 0) {
+        state.postComments = comments;
+    } else {
+        state.postComments = {};
+        for (const post of state.userPosts) {
+            state.postComments[post.id] = getSeedComments(post.id);
+        }
+        await saveLiveCommunityData(null, state.postComments);
+    }
+    
+    saveState();
+    renderCommunityPosts();
+}
+
+async function generateLiveAiCoachComment(post) {
+    const vibe = state.coachVibe || 'scientific';
+    const ex = state.exName || 'their ex';
+    let prompt = "";
+    if (vibe === 'baddie') {
+        prompt = `You are a Baddie Bestie Breakup Coach 💅 responding to this community post: "${post.content}". Write a supportive, energy-boosting comment in 1 to 2 sentences using Gen Z slang. Roast their ex briefly if relevant. Make it feel like a caring bestie replying to their post.`;
+    } else if (vibe === 'savage') {
+        prompt = `You are a Savage Reality Roast Coach 💀 responding to this community post: "${post.content}". Write a blunt, direct, and protective comment in 1 to 2 sentences. Roast their delusional thoughts if they want to text their ex (ex's name is "${ex}"). Never write paragraphs.`;
+    } else {
+        prompt = `You are a Scientific Tea Therapist 🧠 responding to this community post: "${post.content}". Write a clinical but warm, supportive comment in 1 to 2 sentences based on relationship psychology. Make it feel like a helpful advisor.`;
+    }
+    let commentText = "";
+    try {
+        const usePuter = typeof puter !== 'undefined' && puter.ai;
+        if (usePuter) {
+            const response = await puter.ai.chat([
+                { role: "system", content: prompt },
+                { role: "user", content: post.content }
+            ], { model: 'gpt-4o-mini' });
+            if (response && response.message && response.message.content) {
+                commentText = response.message.content.trim();
+            } else if (typeof response === 'string') {
+                commentText = response.trim();
+            }
+        }
+    } catch (e) {
+        console.error("AI Coach comment generation failed:", e);
+    }
+    if (!commentText) {
+        if (vibe === 'baddie') {
+            commentText = `OMG bestie, I feel this so hard. 🫂 You are in your glow-up era, do not let that mid ex drag your energy down! Proud of you. 💅`;
+        } else if (vibe === 'savage') {
+            commentText = `Stop letting ${ex} rent space in your head for free. 💀 Lock the phone, stay strong, and focus on your bag today.`;
+        } else {
+            commentText = `This emotional pain is a standard response to attachment separation. Maintaining boundaries is how your neural pathways heal. You're doing great. 🧠`;
+        }
+    }
+    const newComment = {
+        author: vibe === 'baddie' ? "Baddie Bestie Coach 💅" : vibe === 'savage' ? "Savage Roast Coach 💀" : "Scientific Tea Therapist 🧠",
+        time: "Just now",
+        content: commentText
+    };
+    try {
+        const { comments } = await fetchLiveCommunityData();
+        const liveComments = comments || {};
+        if (!liveComments[post.id]) {
+            liveComments[post.id] = [];
+        }
+        liveComments[post.id].push(newComment);
+        await saveLiveCommunityData(null, liveComments);
+        if (activeCommentPostId === post.id) {
+            state.postComments = liveComments;
+            renderPostComments();
+        }
+        showToast("Coach Commented 💬", `Your AI ${vibe.charAt(0).toUpperCase() + vibe.slice(1)} Coach left a support reply on your post. Check it out!`, "info");
+    } catch (err) {
+        console.error("Failed to append AI comment live:", err);
+    }
+}
 
 function initCommunityTab() {
     const filterTags = document.querySelectorAll('.filter-tag');
@@ -1729,14 +1877,48 @@ function initCommunityTab() {
         });
     });
 
+    // Venting Vibe Templates pre-fill binding
+    const templates = document.querySelectorAll('.vibe-temp');
+    const textarea = document.getElementById('post-content');
+    const categorySelect = document.getElementById('post-tag');
+
+    templates.forEach(t => {
+        t.addEventListener('click', () => {
+            const type = t.getAttribute('data-template');
+            if (type === 'tempted') {
+                textarea.value = `I'm feeling so tempted to text them today. Help me stay strong... 😭`;
+                categorySelect.value = 'Support';
+            } else if (type === 'angry') {
+                textarea.value = `Venting my anger: I saw they did something that triggered me, and it made me realize they never deserved my energy anyway! 😡`;
+                categorySelect.value = 'Vent';
+            } else if (type === 'sad') {
+                textarea.value = `Feeling really heavy and lonely tonight. Just sitting here missing them even though I know it's best this way. 😢`;
+                categorySelect.value = 'Support';
+            } else if (type === 'victory') {
+                textarea.value = `Unclowned Milestone: Just completed Day of No Contact! I feel so proud of protecting my boundaries and self-respect. ✨`;
+                categorySelect.value = 'Milestone';
+            }
+            textarea.focus();
+        });
+    });
+
     const form = document.getElementById('community-post-form');
     if (form) {
-        form.addEventListener('submit', (e) => {
+        // Clone to clear previous handlers
+        const newForm = form.cloneNode(true);
+        form.parentNode.replaceChild(newForm, form);
+
+        newForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const tagVal = document.getElementById('post-tag').value;
             const contentVal = document.getElementById('post-content').value.trim();
 
             if (!contentVal) return;
+
+            const submitBtn = newForm.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Sharing live...';
 
             const post = {
                 id: 'user-' + Date.now(),
@@ -1745,16 +1927,41 @@ function initCommunityTab() {
                 time: "Just now",
                 content: contentVal,
                 likes: 0,
-                commentsCount: 0
+                commentsCount: 0,
+                reactions: { hug: 0, strength: 0, crown: 0, love: 0 }
             };
 
-            state.userPosts.unshift(post);
-            saveState();
-            updateAchievements();
+            try {
+                const { posts } = await fetchLiveCommunityData();
+                const livePosts = posts || [...SEED_COMMUNITY_POSTS];
+                livePosts.unshift(post);
+                
+                await saveLiveCommunityData(livePosts, null);
+                state.userPosts = livePosts;
+                saveState();
+                updateAchievements();
 
-            form.reset();
-            renderCommunityPosts();
-            showToast("Shared Anonymously 🍵", "Your post has been successfully shared in the safety net feed.", "success");
+                newForm.reset();
+                renderCommunityPosts();
+                showToast("Shared Anonymously 🍵", "Your post is now live on the real-time community feed!", "success");
+
+                // Trigger AI Coach response in comments after a short delay
+                setTimeout(() => {
+                    generateLiveAiCoachComment(post);
+                }, 2500);
+
+            } catch (err) {
+                console.error("Failed to share post live:", err);
+                showToast("Connection Sync Issue 🔌", "We couldn't push your post live, saving locally.", "warning");
+                
+                state.userPosts.unshift(post);
+                saveState();
+                newForm.reset();
+                renderCommunityPosts();
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalText;
+            }
         });
     }
 }
@@ -1765,8 +1972,8 @@ function renderCommunityPosts() {
 
     container.innerHTML = '';
 
-    // Merge seed posts and user posts
-    let allPosts = [...state.userPosts, ...SEED_COMMUNITY_POSTS];
+    // Render live posts directly
+    let allPosts = [...state.userPosts];
 
     // Apply Filter
     if (currentFilter !== 'all') {
@@ -1784,11 +1991,19 @@ function renderCommunityPosts() {
     }
 
     allPosts.forEach(post => {
-        const isLiked = state.likedPosts.includes(post.id);
-        
         // Dynamic Comment counts
         const commentsList = state.postComments[post.id] || getSeedComments(post.id);
         const commentsCount = commentsList.length;
+
+        // Ensure post has reactions object
+        if (!post.reactions) {
+            post.reactions = { hug: 0, strength: 0, crown: 0, love: 0 };
+        }
+
+        const hasHug = state.likedPosts.includes(`${post.id}-hug`);
+        const hasStrength = state.likedPosts.includes(`${post.id}-strength`);
+        const hasCrown = state.likedPosts.includes(`${post.id}-crown`);
+        const hasLove = state.likedPosts.includes(`${post.id}-love`);
 
         const card = document.createElement('div');
         card.className = 'glass-panel post-card';
@@ -1807,11 +2022,13 @@ function renderCommunityPosts() {
                 <span class="post-tag ${post.tag.toLowerCase()}">${post.tag}</span>
             </div>
             <div class="post-body">${escapeHTML(post.content)}</div>
+            <div class="reaction-row">
+                <button class="reaction-chip ${hasHug ? 'active' : ''}" data-reaction="hug" data-id="${post.id}">🫂 <span class="react-count">${post.reactions.hug || 0}</span></button>
+                <button class="reaction-chip ${hasStrength ? 'active' : ''}" data-reaction="strength" data-id="${post.id}">💪 <span class="react-count">${post.reactions.strength || 0}</span></button>
+                <button class="reaction-chip ${hasCrown ? 'active' : ''}" data-reaction="crown" data-id="${post.id}">👑 <span class="react-count">${post.reactions.crown || 0}</span></button>
+                <button class="reaction-chip ${hasLove ? 'active' : ''}" data-reaction="love" data-id="${post.id}">💖 <span class="react-count">${post.reactions.love || 0}</span></button>
+            </div>
             <div class="post-footer">
-                <button class="post-action-btn like-btn ${isLiked ? 'liked' : ''}" data-id="${post.id}">
-                    <i class="fa-${isLiked ? 'solid' : 'regular'} fa-heart"></i> 
-                    <span>${post.likes} Likes</span>
-                </button>
                 <button class="post-action-btn comment-btn" data-id="${post.id}">
                     <i class="fa-regular fa-comment"></i> 
                     <span>${commentsCount} Comments</span>
@@ -1819,10 +2036,13 @@ function renderCommunityPosts() {
             </div>
         `;
 
-        // Handle Like Event
-        const likeBtn = card.querySelector('.like-btn');
-        likeBtn.addEventListener('click', () => {
-            toggleLike(post.id, card);
+        // Handle Reactions Events
+        const reactionChips = card.querySelectorAll('.reaction-chip');
+        reactionChips.forEach(chip => {
+            chip.addEventListener('click', () => {
+                const type = chip.getAttribute('data-reaction');
+                toggleReaction(post.id, type, chip);
+            });
         });
 
         // Handle Comment Event (Dynamic Comments Drawer)
@@ -1936,76 +2156,121 @@ function setupCommentsDrawer() {
         closeBtn.addEventListener('click', () => {
             modal.classList.remove('active-view');
             modal.classList.add('hidden-view');
+            activeCommentPostId = null;
         });
     }
 
     if (form && input) {
-        // Clone and replace form listeners to prevent double submits
         const newForm = form.cloneNode(true);
         form.parentNode.replaceChild(newForm, form);
 
-        newForm.addEventListener('submit', (e) => {
+        newForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            const text = document.getElementById('comment-reply-text').value.trim();
-            if (!text || !activeCommentPostId) return;
+            const textVal = document.getElementById('comment-reply-text').value.trim();
+            if (!textVal || !activeCommentPostId) return;
+
+            const submitBtn = newForm.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Posting...';
 
             const newComment = {
                 author: generateAnonName(),
                 time: "Just now",
-                content: text
+                content: textVal
             };
 
-            if (!state.postComments[activeCommentPostId]) {
-                state.postComments[activeCommentPostId] = getSeedComments(activeCommentPostId);
+            try {
+                const { comments } = await fetchLiveCommunityData();
+                const liveComments = comments || {};
+                
+                if (!liveComments[activeCommentPostId]) {
+                    liveComments[activeCommentPostId] = getSeedComments(activeCommentPostId);
+                }
+
+                liveComments[activeCommentPostId].push(newComment);
+                await saveLiveCommunityData(null, liveComments);
+                
+                state.postComments = liveComments;
+                saveState();
+
+                document.getElementById('comment-reply-text').value = '';
+                renderPostComments();
+                showToast("Comment Shared 🫂", "Your anonymous reply was shared with the community.", "success");
+                
+                renderCommunityPosts();
+
+            } catch (err) {
+                console.error("Failed to save comment live:", err);
+                showToast("Connection Sync Issue 🔌", "Failed to share comment live, saved locally.", "warning");
+                
+                if (!state.postComments[activeCommentPostId]) {
+                    state.postComments[activeCommentPostId] = getSeedComments(activeCommentPostId);
+                }
+                state.postComments[activeCommentPostId].push(newComment);
+                saveState();
+                
+                document.getElementById('comment-reply-text').value = '';
+                renderPostComments();
+                renderCommunityPosts();
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalText;
             }
-
-            state.postComments[activeCommentPostId].push(newComment);
-            saveState();
-
-            document.getElementById('comment-reply-text').value = '';
-            renderPostComments();
-            showToast("Comment Shared 🫂", "Your anonymous reply was shared with the community.", "success");
-
-            renderCommunityPosts();
         });
     }
 }
 
-function toggleLike(postId, cardEl) {
-    const isLiked = state.likedPosts.includes(postId);
-    const likeBtn = cardEl.querySelector('.like-btn');
-    const countSpan = likeBtn.querySelector('span');
+async function toggleReaction(postId, type, chipEl) {
+    const reactionKey = `${postId}-${type}`;
+    const hasReacted = state.likedPosts.includes(reactionKey);
+    const countSpan = chipEl.querySelector('.react-count');
 
-    // Seed post references
-    const seedIndex = SEED_COMMUNITY_POSTS.findIndex(p => p.id === postId);
-    const userIndex = state.userPosts.findIndex(p => p.id === postId);
+    try {
+        const { posts } = await fetchLiveCommunityData();
+        const livePosts = posts || state.userPosts;
+        const postIndex = livePosts.findIndex(p => p.id === postId);
+        
+        if (postIndex === -1) return;
+        
+        const post = livePosts[postIndex];
+        if (!post.reactions) {
+            post.reactions = { hug: 0, strength: 0, crown: 0, love: 0 };
+        }
 
-    if (isLiked) {
-        // Unlike
-        state.likedPosts = state.likedPosts.filter(id => id !== postId);
-        
-        if (seedIndex !== -1) SEED_COMMUNITY_POSTS[seedIndex].likes--;
-        if (userIndex !== -1) state.userPosts[userIndex].likes--;
-        
-        likeBtn.classList.remove('liked');
-        likeBtn.querySelector('i').className = 'fa-regular fa-heart';
-    } else {
-        // Like
-        state.likedPosts.push(postId);
-        
-        if (seedIndex !== -1) SEED_COMMUNITY_POSTS[seedIndex].likes++;
-        if (userIndex !== -1) state.userPosts[userIndex].likes++;
-        
-        likeBtn.classList.add('liked');
-        likeBtn.querySelector('i').className = 'fa-solid fa-heart';
-    }
+        if (hasReacted) {
+            state.likedPosts = state.likedPosts.filter(id => id !== reactionKey);
+            post.reactions[type] = Math.max(0, (post.reactions[type] || 1) - 1);
+            chipEl.classList.remove('active');
+        } else {
+            state.likedPosts.push(reactionKey);
+            post.reactions[type] = (post.reactions[type] || 0) + 1;
+            chipEl.classList.add('active');
+        }
 
-    saveState();
-    
-    // Update local render values
-    const currentPost = [...state.userPosts, ...SEED_COMMUNITY_POSTS].find(p => p.id === postId);
-    if (currentPost) {
-        countSpan.innerText = `${currentPost.likes} Likes`;
+        await saveLiveCommunityData(livePosts, null);
+        state.userPosts = livePosts;
+        saveState();
+
+        countSpan.innerText = post.reactions[type];
+
+    } catch (err) {
+        console.error("Failed to update reaction live:", err);
+        const post = state.userPosts.find(p => p.id === postId);
+        if (post) {
+            if (!post.reactions) post.reactions = { hug: 0, strength: 0, crown: 0, love: 0 };
+            if (hasReacted) {
+                state.likedPosts = state.likedPosts.filter(id => id !== reactionKey);
+                post.reactions[type] = Math.max(0, (post.reactions[type] || 1) - 1);
+                chipEl.classList.remove('active');
+            } else {
+                state.likedPosts.push(reactionKey);
+                post.reactions[type] = (post.reactions[type] || 0) + 1;
+                chipEl.classList.add('active');
+            }
+            saveState();
+            countSpan.innerText = post.reactions[type];
+        }
     }
 }
 
@@ -2698,6 +2963,7 @@ function initSettingsTab() {
     const soundToggle = document.getElementById('settings-sound-toggle');
     const apiKeyInput = document.getElementById('settings-openai-key');
     const toggleKeyBtn = document.getElementById('btn-toggle-key-visibility');
+    const dbBucketInput = document.getElementById('settings-db-bucket');
 
     if (nameInput) nameInput.value = state.exName;
     
@@ -2711,6 +2977,10 @@ function initSettingsTab() {
 
     if (apiKeyInput && state.openAiApiKey) {
         apiKeyInput.value = state.openAiApiKey;
+    }
+
+    if (dbBucketInput && state.dbBucket) {
+        dbBucketInput.value = state.dbBucket;
     }
 
     if (toggleKeyBtn && apiKeyInput) {
@@ -2740,6 +3010,7 @@ function initSettingsTab() {
             const newPlan = document.getElementById('settings-plan-track').value;
             const newSound = document.getElementById('settings-sound-toggle').checked;
             const newKey = document.getElementById('settings-openai-key').value.trim();
+            const newDbBucket = document.getElementById('settings-db-bucket').value.trim();
 
             state.exName = newName || 'your ex';
             if (newDateVal) {
@@ -2748,6 +3019,7 @@ function initSettingsTab() {
             state.selectedPlan = newPlan;
             state.soundEffects = newSound;
             state.openAiApiKey = newKey;
+            state.dbBucket = newDbBucket;
 
             saveState();
             showToast("Settings Saved", "Your boundaries and configurations have been successfully updated.", "success");
